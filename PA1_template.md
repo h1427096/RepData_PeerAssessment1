@@ -1,4 +1,9 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
 
 
 ## Loading and preprocessing the data
@@ -36,7 +41,7 @@ hist(summaryByDate$sumSteps, main="Histogram of total number of steps taken each
      xlab = "Steps taken")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 2. Calculate and report the mean and median total number of steps taken per day
 
@@ -73,7 +78,7 @@ plot(summaryByInterval$interval, summaryByInterval$avSteps, type = "l",
      main = "Average daily activity pattern", xlab = "Interval", ylab = "Average steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -115,7 +120,9 @@ Missing values will be replaced by mean for that 5-minute interval.
 
 
 ```r
-dataNew <- data %>% group_by(interval) %>% mutate(steps = ifelse(is.na(steps), mean(steps, na.rm=TRUE), steps))
+dataNew <- data %>% 
+        group_by(interval) %>% 
+        mutate(steps = ifelse(is.na(steps), mean(steps, na.rm=TRUE), steps))
 ```
 
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
@@ -129,7 +136,7 @@ hist(summaryByDateNew$sumSteps, main="Histogram of total number of steps taken e
      xlab = "Steps taken")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
 
 ```r
 #mean
@@ -156,7 +163,9 @@ Inpact of inputing missing data raises total number of steps. This is expected a
 
 
 ```r
-data <- data %>% mutate(day = ifelse(as.POSIXlt(date)$wday %in% c(0,6), "weekend", "weekday")) %>% transform(day = factor(day))
+data <- data %>% 
+        mutate(day = ifelse(as.POSIXlt(date)$wday %in% c(0,6), "weekend", "weekday")) %>% 
+        transform(day = factor(day))
 ```
 
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
@@ -171,4 +180,4 @@ xyplot(avSteps ~ interval | day, data = summaryByInterval, layout = c(1,2), type
        xlab = "Interval", ylab = "Average number of steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
